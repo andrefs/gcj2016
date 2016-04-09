@@ -6,24 +6,6 @@ use strict; use warnings;
 use Data::Dump qw/dump/;
 use feature qw/say/;
 
-my $k = shift @ARGV;
-my $nums = [];
-push @$nums, $_ foreach @ARGV;
-
-my $res = 1;
-
-dump($nums);
-for(my $i=0; $i<@$nums; $i++){
-    my $j = @$nums-$i-1;
-    $res += ($nums->[$j]-1)*$k**$i;
-
-    say "(n[$j]-1)*k^$i\t".($nums->[$j]-1)."*$k^$i";
-}
-say $res;
-
-
-
-__END__
 
 my ($k, $c) = @ARGV;
 my $res = genSeqs($k, $c);
