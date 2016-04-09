@@ -6,11 +6,29 @@ use strict; use warnings;
 use Data::Dump qw/dump/;
 use feature qw/say/;
 
+my $k = shift @ARGV;
+my $nums = [];
+push @$nums, $_ foreach @ARGV;
 
+my $res = 1;
+
+dump($nums);
+for(my $i=0; $i<@$nums; $i++){
+    my $j = @$nums-$i-1;
+    $res += ($nums->[$j]-1)*$k**$i;
+
+    say "(n[$j]-1)*k^$i\t".($nums->[$j]-1)."*$k^$i";
+}
+say $res;
+
+
+
+__END__
 
 my ($k, $c) = @ARGV;
 my $res = genSeqs($k, $c);
 printSeqs($res->{seqs},$res->{complex});
+printGcolumns($res->{complex}, $k);
 
 
 sub genSeqs {
@@ -54,7 +72,26 @@ sub printSeqs {
     }
 }
 
+sub printGcolumns {
+    my ($complex, $numGs) = @_;
+    my $seqLen = length($complex->[0]);
+    my $complexArray = [];
+    foreach(@$complex){
+        push @$complexArray, [(split //, $_)];
+    }
+    for(my $i=0; $i<$seqLen; $i++){
+        my $allGs = 1;
+        foreach my $c (@$complexArray){
+            $allGs = 0 if $c->[$i] ne 'G';
+        }
+        if($allGs){
+            print (($i+1)," ");
+        }
+    }
+    print "\n";
+}
+
 sub formatStr {
     my ($str) = @_;
-    return sprintf(" %-2s|", $str);
+    return sprintf("%-2s|", $str);
 }
